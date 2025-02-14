@@ -6,13 +6,17 @@ def criar_conta(conta: Conta):
     with Session(engine) as session:
         #faz uma query para ver se tem algum banco igual ao que está sendo passado
         statement = select(Conta).where(Conta.banco == conta.banco)
-        results = session.exec(statement).all
+        results = session.exec(statement).all()
+        print("\n")
+        print(results)
+        print("\n")
         if(results):
             print("Banco já existe")
-        #adiciona a conta no banco de dados, porém ele não comita direto já que é sql logo estruturada
-        #session.add(conta)
-        #então tem que só fazer um comite 
-        #session.commit()
+        else:
+            #adiciona a conta no banco de dados, porém ele não comita direto já que é sql logo estruturada
+            session.add(conta)
+            #então tem que só fazer um comite 
+            session.commit()
 
-conta = Conta(valor=1000, banco=Bancos.NUBANK)
+conta = Conta(valor=200, banco=Bancos.INTER)
 criar_conta(conta)
